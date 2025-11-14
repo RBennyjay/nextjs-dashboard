@@ -3,12 +3,11 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 
-// Correct type for route segments in Next.js
-type PageProps = {
+interface PageProps {
   params: {
     id: string;
   };
-};
+}
 
 export default async function Page({ params }: PageProps) {
   const id = params.id;
