@@ -3,22 +3,21 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 
-// Use inline typing for the props to avoid conflicts with global type definitions.
-export default async function Page({
-  params,
-}: {
+// Correct type for route segments in Next.js
+type PageProps = {
   params: {
     id: string;
   };
-}) {
-  const id = params.id; // Access the id directly from the params object
+};
+
+export default async function Page({ params }: PageProps) {
+  const id = params.id;
 
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
     fetchCustomers(),
   ]);
 
-  // Guard clause to handle cases where the invoice is not found
   if (!invoice) {
     notFound();
   }
