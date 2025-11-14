@@ -32,27 +32,26 @@
 import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+import { notFound } from 'next/navigation'; // Added for robust error handling
 
-// Use the standard Next.js App Router pattern for accessing route params
-export default async function Page({ params }: { params: { id: string } }) {
-  // Destructure the id directly from params
-  const { id } = params;
+// Define the correct structure for the Page component's props
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
 
-  // Fetch data concurrently using Promise.all
+export default async function Page({ params }: PageProps) {
+  const id = params.id; // Access the id directly from the params object
+
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
     fetchCustomers(),
   ]);
-
-  // Handle case where invoice might not be found (optional, but good practice)
+  
+  // Guard clause to handle cases where the invoice is not found
   if (!invoice) {
-    // You should use a dedicated not-found page/component in a real app,
-    // but a simple message is fine for demonstration.
-    return (
-      <main className="flex items-center justify-center h-full p-4">
-        <p className="text-xl text-red-500">Invoice not found.</p>
-      </main>
-    );
+    notFound();
   }
 
   return (
@@ -67,7 +66,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      {/* Pass the fetched data to the Form component */}
       <Form invoice={invoice} customers={customers} />
     </main>
   );
