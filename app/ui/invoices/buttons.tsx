@@ -2,13 +2,8 @@
 
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-// Import the deleteInvoice action
 import { deleteInvoice } from '@/app/lib/actions';
-import { useFormStatus } from 'react-dom';
 
-/**
- * Creates the "Create Invoice" button for navigation.
- */
 export function CreateInvoice() {
   return (
     <Link
@@ -21,9 +16,6 @@ export function CreateInvoice() {
   );
 }
 
-/**
- * Creates the "Edit Invoice" button for navigation.
- */
 export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
@@ -35,45 +27,22 @@ export function UpdateInvoice({ id }: { id: string }) {
   );
 }
 
-// ----------------------------------------------------
-// DELETE BUTTON
-// The 'use client' declaration is implied here because we import useFormStatus
-// ----------------------------------------------------
-
-/**
- * Client Component to handle form submission status and provide UX feedback.
- */
-function DeleteButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className="rounded-md border p-2 hover:bg-gray-100"
-      disabled={pending} // Disable button while deletion is pending
-    >
-      <span className="sr-only">Delete</span>
-      {pending ? (
-        <TrashIcon className="w-5 text-gray-500 animate-pulse" />
-      ) : (
-        <TrashIcon className="w-5" />
-      )}
-    </button>
-  );
-}
-
-/**
- * Renders the form that calls the deleteInvoice Server Action.
- * @param id The ID of the invoice to delete.
- */
 export function DeleteInvoice({ id }: { id: string }) {
-  // Bind the deleteInvoice Server Action with the invoice ID
-  const deleteInvoiceWithId = deleteInvoice.bind(null, id);
+  // Updated to match Next.js App Router form action type
+  const deleteInvoiceWithId = async (formData: FormData) => {
+    // Call your existing deleteInvoice function
+    await deleteInvoice(id);
+
+    // Must return void to satisfy form action type
+    return;
+  };
 
   return (
     <form action={deleteInvoiceWithId}>
-      {/* DeleteButton uses useFormStatus to monitor this form */}
-      <DeleteButton />
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
     </form>
   );
 }
