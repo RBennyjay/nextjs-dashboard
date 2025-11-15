@@ -8,19 +8,25 @@ export const metadata: Metadata = {
   title: 'Customers',
 };
 
-export default async function Page({ searchParams }: { searchParams?: any }) {
-  // Await searchParams if necessary (Next.js 14+ may return Promise)
+interface CustomersPageProps {
+  searchParams?: { query?: string; page?: string } | Promise<{ query?: string; page?: string }>;
+}
+
+export default async function Page({ searchParams }: CustomersPageProps) {
+  // Await searchParams if it's a Promise
   const sp = await searchParams;
 
   const query = typeof sp?.query === 'string' ? sp.query : '';
   const currentPage = Number(sp?.page ?? 1);
 
+  // Fetch customers from server
   const customers: FormattedCustomersTable[] = await fetchFilteredCustomers(query);
 
   return (
     <div className="w-full">
       {/* Client-side search */}
-      <Search placeholder="Search customers..." />
+      {/* <Search placeholder="Search customers..." /> */}
+
       {/* Server-side table */}
       <Table query={query} currentPage={currentPage} customers={customers} />
     </div>
