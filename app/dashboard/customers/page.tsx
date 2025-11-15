@@ -6,12 +6,8 @@ export const metadata: Metadata = {
   title: 'Customers',
 };
 
-// Define the expected type for searchParams
-interface CustomersPageProps {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default async function Page({ searchParams }: CustomersPageProps) {
+export default async function Page({ searchParams }: { searchParams?: any }) {
+  // Extract query parameters safely
   const query = typeof searchParams?.query === 'string' ? searchParams.query : '';
   const currentPage = Number(searchParams?.page) || 1;
 
