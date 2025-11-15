@@ -7,24 +7,18 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
+import type { PageProps } from 'next';
 
-// Define the interface for clarity and better TypeScript resolution
-interface SearchParams {
-  query?: string;
-  page?: string;
-}
- 
 export const metadata: Metadata = {
   title: 'Invoices',
 };
 
-// Apply the interface to the component's argument
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: SearchParams; // Using the defined interface
-}) {
-  const query = searchParams?.query || '';
+export default async function Page(props: PageProps) {
+  // Next.js 15: searchParams is a Promise
+  const searchParams = await props.searchParams;
+
+  const query =
+    typeof searchParams?.query === 'string' ? searchParams.query : '';
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await fetchInvoicesPages(query);

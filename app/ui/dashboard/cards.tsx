@@ -7,6 +7,8 @@ import {
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data'; // Import the data fetching function
 
+
+
 const iconMap = {
   collected: BanknotesIcon,
   customers: UserGroupIcon,

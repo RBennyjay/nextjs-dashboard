@@ -1,6 +1,4 @@
-// /app/dashboard/(overview)/page.tsx
-
-import CardWrapper from '@/app/ui/dashboard/cards'; // Import the new CardWrapper
+import { CardWrapper } from '@/app/ui/dashboard/cards'; // Fixed named import
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
@@ -8,10 +6,8 @@ import { Suspense } from 'react';
 import {
   RevenueChartSkeleton,
   LatestInvoicesSkeleton,
-  CardsSkeleton, // Import the CardsSkeleton
+  CardsSkeleton,
 } from '@/app/ui/skeletons';
-
-// NOTE: fetchCardData() function should be deleted from this file.
 
 export default async function Page() {
   return (
@@ -20,7 +16,6 @@ export default async function Page() {
         Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Wrap CardWrapper in Suspense */}
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
         </Suspense>
