@@ -12,21 +12,20 @@ interface CustomersPageProps {
 }
 
 export default async function Page({ searchParams }: CustomersPageProps) {
+  // Turbopack requires awaiting searchParams even if it's not a Promise
+  const sp = await searchParams;
+
   const query =
-    typeof searchParams?.query === 'string' ? searchParams.query : '';
+    typeof sp?.query === 'string' ? sp.query : '';
 
   const currentPage =
-    typeof searchParams?.page === 'string'
-      ? Number(searchParams.page)
-      : 1;
+    typeof sp?.page === 'string' ? Number(sp.page) : 1;
 
-  // Fetch customers from server
   const customers: FormattedCustomersTable[] =
     await fetchFilteredCustomers(query);
 
   return (
     <div className="w-full">
-      {/* Server-side table */}
       <Table
         query={query}
         currentPage={currentPage}
