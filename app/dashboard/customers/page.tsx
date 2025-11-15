@@ -24,10 +24,7 @@ export default async function Page(props: {
     await fetchFilteredCustomers(query);
 
   return (
-    <div className="w-full">
-      <Search placeholder="Search customers..." />
-
-      {/*  Table ONLY receives customers */}
+    <div className="w-full">  
       <Table customers={customers} />
     </div>
   );
