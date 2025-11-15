@@ -8,29 +8,27 @@ export const metadata: Metadata = {
   title: 'Customers',
 };
 
-// ⚡ SAME structure as invoices page:
+// SAME method as invoices (Promise searchParams)
 export default async function Page(props: {
   searchParams?: Promise<{
     query?: string;
     page?: string;
   }>;
 }) {
-  // MUST await because props.searchParams is now a Promise
-  const searchParams = await props.searchParams;
+  const sp = await props.searchParams;
 
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
+  const query = sp?.query || '';
+  const currentPage = Number(sp?.page) || 1;
 
   const customers: FormattedCustomersTable[] =
     await fetchFilteredCustomers(query);
 
   return (
     <div className="w-full">
-      {/* Search bar */}
       <Search placeholder="Search customers..." />
 
-      {/* Table */}
-      <Table query={query} currentPage={currentPage} customers={customers} />
+      {/*  Table ONLY receives customers */}
+      <Table customers={customers} />
     </div>
   );
 }
