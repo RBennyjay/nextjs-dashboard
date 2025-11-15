@@ -1,5 +1,4 @@
-// Import Metadata type if you want strict typing, otherwise it's optional
-import { Metadata } from 'next'; 
+import { Metadata } from 'next';
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/invoices/table';
@@ -9,18 +8,21 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
 
-// Add the page-specific metadata
+// Define the interface for clarity and better TypeScript resolution
+interface SearchParams {
+  query?: string;
+  page?: string;
+}
+ 
 export const metadata: Metadata = {
   title: 'Invoices',
 };
 
+// Apply the interface to the component's argument
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+  searchParams?: SearchParams; // Using the defined interface
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;

@@ -1,31 +1,31 @@
 import Table from '@/app/ui/customers/table';
 import { Metadata } from 'next';
-// 1. Import the function to fetch customer data
-import { fetchFilteredCustomers } from '@/app/lib/data'; 
+import { fetchFilteredCustomers } from '@/app/lib/data';
+
+// Define the interface for clarity and better TypeScript resolution in the build environment
+interface SearchParams {
+    query?: string;
+    page?: string;
+}
 
 export const metadata: Metadata = {
-    title: 'Customers', // Will render as "Customers | Acme Dashboard"
+    title: 'Customers',
 };
- 
+
+// Apply the interface to the component's argument
 export default async function Page({
-  searchParams,
+    searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+    searchParams?: SearchParams; // Using the defined interface
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
 
-  // 2. Fetch the filtered customer data on the server
-  
-  const customers = await fetchFilteredCustomers(query);
+    const customers = await fetchFilteredCustomers(query);
 
-  return (
-    <div className="w-full">
-      {/* 3. Pass the fetched 'customers' data to the Table component */}
-      <Table query={query} currentPage={currentPage} customers={customers} />
-    </div>
-  );
+    return (
+        <div className="w-full">
+            <Table query={query} currentPage={currentPage} customers={customers} />
+        </div>
+    );
 }
