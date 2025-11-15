@@ -8,24 +8,30 @@ export const metadata: Metadata = {
 };
 
 interface CustomersPageProps {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default async function Page({ searchParams }: CustomersPageProps) {
-  // No awaiting needed — searchParams is NOT a Promise
-  const query = typeof searchParams?.query === 'string' ? searchParams.query : '';
-  const currentPage = Number(searchParams?.page ?? 1);
+  const query =
+    typeof searchParams?.query === 'string' ? searchParams.query : '';
+
+  const currentPage =
+    typeof searchParams?.page === 'string'
+      ? Number(searchParams.page)
+      : 1;
 
   // Fetch customers from server
-  const customers: FormattedCustomersTable[] = await fetchFilteredCustomers(query);
+  const customers: FormattedCustomersTable[] =
+    await fetchFilteredCustomers(query);
 
   return (
     <div className="w-full">
       {/* Server-side table */}
-      <Table query={query} currentPage={currentPage} customers={customers} />
+      <Table
+        query={query}
+        currentPage={currentPage}
+        customers={customers}
+      />
     </div>
   );
 }
