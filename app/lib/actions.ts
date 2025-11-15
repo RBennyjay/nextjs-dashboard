@@ -119,7 +119,6 @@ export async function deleteInvoice(id: string) {
   }
 }
 
-// --- NEW AUTHENTICATION ACTION (Restored) ---
 
 /**
  * Server Action to handle user sign-in.
