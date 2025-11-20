@@ -6,8 +6,6 @@
 
 
 // app/api/auth/[...nextauth]/route.ts
+import { GET, POST } from '@/auth'; 
 
-import { GET, POST } from '../../../../auth'; 
-
-// Re-exported to handle all authentication API requests
 export { GET, POST };
